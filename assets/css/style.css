@@ -10,8 +10,8 @@
 # General
 --------------------------------------------------------------*/
 body {
-  background: #fff;
-  color: #666666;
+  background: #000;
+  color: #FFF;
   font-family: "Open Sans", sans-serif;
 }
 
@@ -507,7 +507,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 20px 0;
-  background-color: whitesmoke;
+  background-color: #111;
   min-height: 40px;
   margin-top: 92px;
 }
@@ -1006,7 +1006,7 @@ section {
 /* Contact Section
 --------------------------------*/
 #contact {
-  background: #f7f7f7;
+  background: #000;
   padding: 80px 0 40px 0;
 }
 
@@ -1016,7 +1016,7 @@ section {
 }
 
 #contact .info {
-  color: #333333;
+  color: #FFF;
 }
 
 #contact .info i {
@@ -1144,7 +1144,7 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #343b40;
+  background: #111;
   padding: 30px 0;
   color: #fff;
   font-size: 14px;
