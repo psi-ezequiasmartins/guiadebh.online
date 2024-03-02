@@ -235,13 +235,15 @@
     }
 
     function buscarResultadosGoogle(artigo, regiao, start) {
-      var key = 'AIzaSyDUBTBA-94Jk1ZU0Rq9IhUG65BP4Y12AyQ'; 
+      var apiKey = 'AIzaSyDUBTBA-94Jk1ZU0Rq9IhUG65BP4Y12AyQ'; 
+      var idSearchEngine = 'b05ecfe1164ec4c27';
       var divResultados = document.getElementById('div_resultados');
       var numResultadosPorPagina = 10; // Número de resultados por página
       var startIndex = start || 1; // Índice do primeiro resultado a ser buscado
-  
-      var url = `https://www.googleapis.com/customsearch/v1?key=${key}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${startIndex}&num=${numResultadosPorPagina}`;
-  
+
+      var url = 'https://www.googleapis.com/customsearch/v1?key=' + apiKey + '&cx=' + idSearchEngine + '&q=' + encodeURIComponent(artigo+' '+regiao);
+      // var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${startIndex}&num=${numResultadosPorPagina}`;
+
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
       xhr.onreadystatechange = function () {
