@@ -216,14 +216,32 @@
   <!-- End Footer -->
 
   <script>
+    // Função para obter parâmetros da URL
+    function obterParametroURL(nome) {
+      var url = new URL(window.location.href);
+      return url.searchParams.get(nome);
+    }
+
+    // Obtém os parâmetros da URL
+    var artigo = obterParametroURL('artigo');
+    var regiao = obterParametroURL('regiao');
+  
+    // Verifica se os parâmetros foram passados
+    if (artigo && regiao) {
+      // Chama a função para buscar os resultados do Google
+      buscarResultadosGoogle(artigo, regiao);
+    } else {
+      console.error('Parâmetros "artigo" e "regiao" não foram passados na URL.');
+    }
+
     function buscarResultadosGoogle(artigo, regiao, start) {
       var apiKey = 'AIzaSyDWDk5F2p8-HMkwDPYZ79SqrIDqZKrLu6s';
       var divResultados = document.getElementById('div_resultados');
       var numResultadosPorPagina = 10; // Número de resultados por página
       var startIndex = start || 1; // Índice do primeiro resultado a ser buscado
-
+  
       var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${startIndex}&num=${numResultadosPorPagina}`;
-
+  
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
       xhr.onreadystatechange = function () {
@@ -231,7 +249,7 @@
               var resposta = JSON.parse(xhr.responseText);
               var itens = resposta.items;
               var html = '';
-
+  
               // Montar os resultados em HTML
               for (var i = 0; i < itens.length; i++) {
                   var item = itens[i];
@@ -240,10 +258,10 @@
                       html += '<p>' + item.snippet + '</p>';
                   }
               }
-
+  
               // Exibir os resultados na div
               divResultados.innerHTML += html;
-
+  
               // Verificar se há mais páginas de resultados e buscar mais se necessário
               if (resposta.queries.nextPage) {
                   var nextPageStart = resposta.queries.nextPage[0].startIndex;
@@ -253,8 +271,6 @@
       };
       xhr.send();
     }
-
-    buscarResultadosGoogle(artigo, regiao);
   </script>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
