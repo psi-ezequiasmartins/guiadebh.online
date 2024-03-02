@@ -36,6 +36,9 @@ function buscarResultadosGoogle(regiao) {
 // Exemplo de uso: buscar resultados para 'tecnologia' na região 'Brasil'
 buscarResultadosGoogle('tecnologia Brasil');
 
+// ---------------------------------------------------------------------- //
+
+
 // 2.Função para buscar resultados do Google por região específica
 function buscarResultadosGoogle(regiao, start) {
   var chaveAPI = 'SUA_CHAVE_DE_API';
