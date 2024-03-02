@@ -1,0 +1,65 @@
+/** --------------------------------------- index.html */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Website</title>
+</head>
+<body>
+    <header>
+        <!-- Aqui vai o seu cabeçalho padrão -->
+    </header>
+
+    <main>
+        <form id="form_busca" action="resultados.html" method="GET">
+            <input type="text" id="regiao" name="regiao" placeholder="Digite a região...">
+            <button type="submit">Buscar</button>
+        </form>
+    </main>
+
+    <footer>
+        <!-- Aqui vai o seu rodapé padrão -->
+    </footer>
+</body>
+</html>
+
+/** --------------------------------------- resultados.html */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Busca</title>
+</head>
+<body>
+    <header>
+        <!-- Aqui vai o seu cabeçalho padrão -->
+    </header>
+
+    <main>
+        <div id="div_resultados">
+            <!-- Os resultados da busca serão exibidos aqui -->
+        </div>
+    </main>
+
+    <footer>
+        <!-- Aqui vai o seu rodapé padrão -->
+    </footer>
+
+    <script>
+        // Função para buscar resultados do Google por região específica
+        function buscarResultadosGoogle(regiao) {
+            // Seu código JavaScript para buscar resultados aqui...
+        }
+
+        // Extrair parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const regiao = urlParams.get('regiao');
+
+        // Exibir resultados para a região especificada
+        buscarResultadosGoogle(regiao);
+    </script>
+</body>
+</html>
+
