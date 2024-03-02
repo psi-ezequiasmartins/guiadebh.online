@@ -241,7 +241,7 @@
       var startIndex = start || 1; // Índice do primeiro resultado a ser buscado
       var numResultadosPorPagina = 10; // Número de resultados por página
 
-      var url = 'https://www.googleapis.com/customsearch/v1?key='+apiKey+'&cx='+idSearchEngine+'&q='+encodeURIComponent(artigo+' '+regiao)+'&start='+startIndex+'&num='+numResultadosPorPagina;
+      var url = 'https://www.googleapis.com/customsearch/v1?key='+apiKey+'&cx='+idSearchEngine+'&q='+encodeURIComponent(artigo+' '+regiao)+'&start=1&num=10';
       // var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${startIndex}&num=${numResultadosPorPagina}`;
 
       var xhr = new XMLHttpRequest();
