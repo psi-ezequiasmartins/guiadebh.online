@@ -309,7 +309,7 @@
                 linksPaginacao += '<button class="btn btn-primary" style="margin-right: 3px; onclick="buscarPagina(1);">1</button>';
 
                 var inicio = Math.max(2, paginaAtual - 2); // Começar a exibir a partir da segunda página
-                var fim = Math.min(numPaginas - 1, inicio + 4); // Exibir até a quinta página a partir da atual
+                var fim = Math.min(numPaginas - 1, inicio + 2); // Exibir até a terceira página a partir da atual
 
                 if (inicio > 2) {
                     linksPaginacao += ' ... '; // Adicionar pontos suspensivos se houver mais páginas à esquerda
