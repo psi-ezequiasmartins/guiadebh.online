@@ -222,8 +222,8 @@
 
     // Função para obter parâmetros da URL
     function obterParametroURL(nome) {
-      var url = new URL(window.location.href);
-      return url.searchParams.get(nome);
+        var url = new URL(window.location.href);
+        return url.searchParams.get(nome);
     }
 
     // Obtém os parâmetros da URL
@@ -234,71 +234,94 @@
 
     // Verifica se os parâmetros foram passados
     if (artigo && regiao) {
-      // Chama a função para buscar os resultados do Google
-      buscarResultadosGoogle(artigo, regiao, start);
+        // Chama a função para buscar os resultados do Google
+        buscarResultadosGoogle(artigo, regiao, start);
     } else {
-      console.error('Parâmetros "artigo" e "regiao" não foram passados na URL.');
+        console.error('Parâmetros "artigo" e "regiao" não foram passados na URL.');
     }
 
     function buscarResultadosGoogle(artigo, regiao, start) {
-    var apiKey = 'AIzaSyDUBTBA-94Jk1ZU0Rq9IhUG65BP4Y12AyQ'; 
-    var idSearchEngine = 'b05ecfe1164ec4c27';
-    var divResultados = document.getElementById('div_resultados');
-    var divPaginacao = document.getElementById('div_paginacao');
+        var apiKey = 'AIzaSyDUBTBA-94Jk1ZU0Rq9IhUG65BP4Y12AyQ'; 
+        var idSearchEngine = 'b05ecfe1164ec4c27';
+        var divResultados = document.getElementById('div_resultados');
+        var divPaginacao = document.getElementById('div_paginacao');
 
-    var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${start}&num=${numResultadosPorPagina}`;
+        var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${start}&num=${numResultadosPorPagina}`;
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var resposta = JSON.parse(xhr.responseText);
-            var itens = resposta.items;
-            var html = '';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var resposta = JSON.parse(xhr.responseText);
+                var itens = resposta.items;
+                var html = '';
 
-            // Montar os resultados em HTML
-            for (var i = 0; i < itens.length; i++) {
-                var item = itens[i];
-                if (item.displayLink) { // Verificar se é um resultado orgânico
-                    html += '<p><a href="' + item.link + '">' + item.title + '</a></p>';
-                    html += '<p>' + item.snippet + '</p>';
+                // Montar os resultados em HTML
+                for (var i = 0; i < itens.length; i++) {
+                    var item = itens[i];
+                    if (item.displayLink) { // Verificar se é um resultado orgânico
+                        html += '<p><a href="' + item.link + '">' + item.title + '</a></p>';
+                        html += '<p>' + item.snippet + '</p>';
+                    }
                 }
+
+                // Exibir os resultados na div
+                divResultados.innerHTML += html;
+
+                // Definir o total de resultados
+                totalResultados = resposta.searchInformation.totalResults;
+
+                // Construir links de navegação
+                var paginaAtual = Math.ceil(start / numResultadosPorPagina);
+                var numPaginas = Math.ceil(totalResultados / numResultadosPorPagina);
+
+                var linksPaginacao = '';
+                if (paginaAtual > 1) {
+                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual - 1) + '); return false;">Anterior</a> ';
+                }
+
+                // Adicione o botão para ir para a primeira página
+                linksPaginacao += '<a href="#" onclick="buscarPagina(1); return false;">1</a>';
+
+                var inicio = Math.max(2, paginaAtual - 2); // Começar a exibir a partir da segunda página
+                var fim = Math.min(numPaginas - 1, inicio + 4); // Exibir até a quinta página a partir da atual
+
+                if (inicio > 2) {
+                    linksPaginacao += ' ... '; // Adicionar pontos suspensivos se houver mais páginas à esquerda
+                }
+
+                for (var i = inicio; i <= fim; i++) {
+                    if (i === paginaAtual) {
+                        linksPaginacao += '<strong>' + i + '</strong> '; // Destacar a página atual
+                    } else {
+                        linksPaginacao += '<a href="#" onclick="buscarPagina(' + i + '); return false;">' + i + '</a> ';
+                    }
+                }
+
+                if (fim < numPaginas - 1) {
+                    linksPaginacao += ' ... '; // Adicionar pontos suspensivos se houver mais páginas à direita
+                }
+
+                // Adicione o botão para ir para a última página
+                if (numPaginas > 1) {
+                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + numPaginas + '); return false;">' + numPaginas + '</a>';
+                }
+
+                if (paginaAtual < numPaginas) {
+                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual + 1) + '); return false;">Próxima</a>';
+                }
+
+                divPaginacao.innerHTML = linksPaginacao;
             }
+        };
+        xhr.send();
+    }
 
-            // Exibir os resultados na div
-            divResultados.innerHTML += html;
-
-            // Definir o total de resultados
-            totalResultados = resposta.searchInformation.totalResults;
-
-            // Construir links de navegação
-            var paginaAtual = Math.ceil(start / numResultadosPorPagina);
-            var numPaginas = Math.ceil(totalResultados / numResultadosPorPagina);
-
-            var linksPaginacao = '';
-            if (paginaAtual > 1) {
-                linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual - 1) + '); return false;">Anterior</a> ';
-            }
-
-            for (var i = 1; i <= numPaginas; i++) {
-                linksPaginacao += '<a href="#" onclick="buscarPagina(' + i + '); return false;">' + i + '</a> ';
-            }
-
-            if (paginaAtual < numPaginas) {
-                linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual + 1) + '); return false;">Próxima</a>';
-            }
-
-            divPaginacao.innerHTML = linksPaginacao;
-        }
-    };
-    xhr.send();
-  }
-
-  function buscarPagina(pagina) {
-      var start = (pagina - 1) * numResultadosPorPagina + 1;
-      var artigo = obterParametroURL('artigo');
-      var regiao = obterParametroURL('regiao');
-      buscarResultadosGoogle(artigo, regiao, start);
+    function buscarPagina(pagina) {
+        var start = (pagina - 1) * numResultadosPorPagina + 1;
+        var artigo = obterParametroURL('artigo');
+        var regiao = obterParametroURL('regiao');
+        buscarResultadosGoogle(artigo, regiao, start);
     }
   </script>
 
