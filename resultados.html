@@ -220,115 +220,6 @@
   <script>
     // Definir variáveis globais
     var totalResultados;
-  
-    // Função para obter parâmetros da URL
-    function obterParametroURL(nome) {
-      var url = new URL(window.location.href);
-      return url.searchParams.get(nome);
-    }
-  
-    // Obtém os parâmetros da URL
-    var artigo = obterParametroURL('artigo');
-    var regiao = obterParametroURL('regiao');
-    var start = parseInt(obterParametroURL('start')) || 1; // Índice do primeiro resultado a ser buscado
-    var numResultadosPorPagina = 10; // Número de resultados por página
-  
-    // Verifica se os parâmetros foram passados
-    if (artigo && regiao) {
-      // Chama a função para buscar os resultados do Google
-      buscarResultadosGoogle(artigo, regiao, start);
-    } else {
-      console.error('Parâmetros "artigo" e "regiao" não foram passados na URL.');
-    }
-  
-    function buscarResultadosGoogle(artigo, regiao, start) {
-      var apiKey = 'AIzaSyDUBTBA-94Jk1ZU0Rq9IhUG65BP4Y12AyQ';
-      var idSearchEngine = 'b05ecfe1164ec4c27';
-      var divResultados = document.getElementById('div_resultados');
-      var divPaginacao = document.getElementById('div_paginacao');
-
-      // Limpar o conteúdo da div de resultados
-      divResultados.innerHTML = '';
-
-      var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${start}&num=${numResultadosPorPagina}`;
-  
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var resposta = JSON.parse(xhr.responseText);
-          var itens = resposta.items;
-          var html = '';
-  
-          // Montar os resultados em HTML
-          for (var i = 0; i < itens.length; i++) {
-            var item = itens[i];
-            if (item.displayLink) { // Verificar se é um resultado orgânico
-              html += '<p><a href="' + item.link + '">' + item.title + '</a></p>';
-              html += '<p>' + item.snippet + '</p>';
-            }
-          }
-  
-          // Exibir os resultados na div
-          divResultados.innerHTML += html;
-  
-          // Definir o total de resultados
-          totalResultados = resposta.searchInformation.totalResults;
-  
-          // Construir links de navegação
-          var paginaAtual = Math.ceil(start / numResultadosPorPagina);
-          var numPaginas = Math.ceil(totalResultados / numResultadosPorPagina);
-  
-          var linksPaginacao = '';
-  
-          if (paginaAtual > 1) {
-            linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + (paginaAtual - 1) + ');">Anterior</button> ';
-          }
-  
-          // Adiciona o botão para a primeira página
-          linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(1);">1</button> ';
-  
-          if (paginaAtual > 4) {
-            linksPaginacao += '... ';
-          }
-  
-          var inicio = Math.max(2, paginaAtual - 1);
-          var fim = Math.min(numPaginas - 1, inicio + 4);
-  
-          for (var i = inicio; i <= fim; i++) {
-            linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + i + ');">' + i + '</button> ';
-          }
-  
-          if (fim < numPaginas - 1) {
-            linksPaginacao += '... ';
-          }
-  
-          // Adiciona o botão para a última página
-          if (numPaginas > 1) {
-            linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button> ';
-          }
-  
-          if (paginaAtual < numPaginas) {
-            linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + (paginaAtual + 1) + ');">Próxima</button>';
-          }
-  
-          divPaginacao.innerHTML = linksPaginacao;
-        }
-      };
-      xhr.send();
-    }
-  
-    function buscarPagina(pagina) {
-      var start = (pagina - 1) * numResultadosPorPagina + 1;
-      var artigo = obterParametroURL('artigo');
-      var regiao = obterParametroURL('regiao');
-      buscarResultadosGoogle(artigo, regiao, start);
-    }
-  </script>
-
-  <!-- <script>
-    // Definir variáveis globais
-    var totalResultados;
 
     // Função para obter parâmetros da URL
     function obterParametroURL(nome) {
@@ -355,6 +246,9 @@
         var idSearchEngine = 'b05ecfe1164ec4c27';
         var divResultados = document.getElementById('div_resultados');
         var divPaginacao = document.getElementById('div_paginacao');
+
+        // Limpar o conteúdo da div de resultados
+        divResultados.innerHTML = '';
 
         var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${start}&num=${numResultadosPorPagina}`;
 
@@ -387,11 +281,11 @@
 
                 var linksPaginacao = '';
                 if (paginaAtual > 1) {
-                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual - 1) + '); return false;">Anterior</a> ';
+                    linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + (paginaAtual - 1) + ');">Anterior</button> ';
                 }
 
                 // Adicione o botão para ir para a primeira página
-                linksPaginacao += '<a href="#" onclick="buscarPagina(1); return false;">1</a>';
+                linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(1);">1</button>';
 
                 var inicio = Math.max(2, paginaAtual - 2); // Começar a exibir a partir da segunda página
                 var fim = Math.min(numPaginas - 1, inicio + 4); // Exibir até a quinta página a partir da atual
@@ -402,9 +296,9 @@
 
                 for (var i = inicio; i <= fim; i++) {
                     if (i === paginaAtual) {
-                        linksPaginacao += '<strong>' + i + '</strong> '; // Destacar a página atual
+                        linksPaginacao += '<button class="btn btn-warning">' + i + '</button> '; // Destacar a página atual com a cor laranja
                     } else {
-                        linksPaginacao += '<a href="#" onclick="buscarPagina(' + i + '); return false;">' + i + '</a> ';
+                        linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + i + ');">' + i + '</button> ';
                     }
                 }
 
@@ -414,14 +308,17 @@
 
                 // Adicione o botão para ir para a última página
                 if (numPaginas > 1) {
-                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + numPaginas + '); return false;">' + numPaginas + '</a>';
+                    linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button>';
                 }
 
                 if (paginaAtual < numPaginas) {
-                    linksPaginacao += '<a href="#" onclick="buscarPagina(' + (paginaAtual + 1) + '); return false;">Próxima</a>';
+                    linksPaginacao += '<button class="btn btn-primary" onclick="buscarPagina(' + (paginaAtual + 1) + ');">Próxima</button>';
                 }
 
                 divPaginacao.innerHTML = linksPaginacao;
+
+                // Rolar para o topo da página
+                window.scrollTo(0, 0);
             }
         };
         xhr.send();
@@ -433,7 +330,7 @@
         var regiao = obterParametroURL('regiao');
         buscarResultadosGoogle(artigo, regiao, start);
     }
-  </script> -->
+  </script>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
