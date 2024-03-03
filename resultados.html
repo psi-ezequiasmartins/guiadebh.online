@@ -245,7 +245,10 @@
       var idSearchEngine = 'b05ecfe1164ec4c27';
       var divResultados = document.getElementById('div_resultados');
       var divPaginacao = document.getElementById('div_paginacao');
-  
+
+      // Limpar o conteúdo da div de resultados
+      divResultados.innerHTML = '';
+
       var url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${idSearchEngine}&q=${encodeURIComponent(artigo+' '+regiao)}&start=${start}&num=${numResultadosPorPagina}`;
   
       var xhr = new XMLHttpRequest();
