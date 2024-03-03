@@ -296,7 +296,7 @@
 
                 for (var i = inicio; i <= fim; i++) {
                     if (i === paginaAtual) {
-                        linksPaginacao += '<button class="btn btn-warning mr-2">' + i + '</button> '; // Destacar a página atual com a cor laranja
+                        linksPaginacao += '<button class="btn btn-warning ml-2 mr-2">' + i + '</button> '; // Destacar a página atual com a cor laranja
                     } else {
                         linksPaginacao += '<button class="btn btn-primary mr-2" onclick="buscarPagina(' + i + ');">' + i + '</button> ';
                     }
@@ -308,7 +308,7 @@
 
                 // Adicione o botão para ir para a última página
                 if (numPaginas > 1) {
-                    linksPaginacao += '<button class="btn btn-primary mr-2" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button>';
+                    linksPaginacao += '<button class="btn btn-primary ml-2 mr-2" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button>';
                 }
 
                 if (paginaAtual < numPaginas) {
