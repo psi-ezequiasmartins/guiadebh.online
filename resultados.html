@@ -304,6 +304,9 @@
                     if (item.displayLink) { // Verificar se é um resultado orgânico
                         html += '<p><a href="' + item.link + '">' + item.title + '</a></p>';
                         html += '<p>' + item.snippet + '</p>';
+                        if (item.image && item.thumbnailLink) {
+                            html += '<img src="' + item.thumbnailLink + '" alt="' + item.title + '">';
+                        }
                     }
                 }
 
@@ -319,11 +322,11 @@
 
                 var linksPaginacao = '';
                 if (paginaAtual > 1) {
-                    linksPaginacao += '<button class="btn btn-primary" style="margin-right: 3px; onclick="buscarPagina(' + (paginaAtual - 1) + ');">Anterior</button> ';
+                    linksPaginacao += '<button class="btn btn-primary" style="margin-right: 2px; onclick="buscarPagina(' + (paginaAtual - 1) + ');">Anterior</button> ';
                 }
 
                 // Adicione o botão para ir para a primeira página
-                linksPaginacao += '<button class="btn btn-primary" style="margin-right: 3px; onclick="buscarPagina(1);">1</button>';
+                linksPaginacao += '<button class="btn btn-primary" style="margin-left: 2px; margin-right: 2px; onclick="buscarPagina(1);">1</button>';
 
                 var inicio = Math.max(2, paginaAtual - 2); // Começar a exibir a partir da segunda página
                 var fim = Math.min(numPaginas - 1, inicio + 2); // Exibir até a terceira página a partir da atual
@@ -334,9 +337,9 @@
 
                 for (var i = inicio; i <= fim; i++) {
                     if (i === paginaAtual) {
-                        linksPaginacao += '<button class="btn btn-warning" style="margin-right: 3px;">' + i + '</button> '; // Destacar a página atual com a cor laranja
+                        linksPaginacao += '<button class="btn btn-warning" style="margin-left: 2px;">' + i + '</button> '; // Destacar a página atual com a cor laranja
                     } else {
-                        linksPaginacao += '<button class="btn btn-primary" style="margin-right: 3px;" onclick="buscarPagina(' + i + ');">' + i + '</button> ';
+                        linksPaginacao += '<button class="btn btn-primary" style="margin-left: 2px;" onclick="buscarPagina(' + i + ');">' + i + '</button> ';
                     }
                 }
 
@@ -346,11 +349,11 @@
 
                 // Adicione o botão para ir para a última página
                 if (numPaginas > 1) {
-                    linksPaginacao += '<button class="btn btn-primary" style="margin-right: 3px;" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button>';
+                    linksPaginacao += '<button class="btn btn-primary" style="margin-left: 2px; margin-right: 2px;" onclick="buscarPagina(' + numPaginas + ');">' + numPaginas + '</button>';
                 }
 
                 if (paginaAtual < numPaginas) {
-                    linksPaginacao += '<button class="btn btn-warning" style="margin-right: 3px;" onclick="buscarPagina(' + (paginaAtual + 1) + ');">Próxima</button>';
+                    linksPaginacao += '<button class="btn btn-warning" style="margin-left: 2px;" onclick="buscarPagina(' + (paginaAtual + 1) + ');">Próxima</button>';
                 }
 
                 divPaginacao.innerHTML = linksPaginacao;
