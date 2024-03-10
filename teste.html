@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Integração com Google CSE</title>
+</head>
+<body>
+
+    <!-- Formulário de Pesquisa -->
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Digite sua pesquisa">
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    <!-- Resultados da Pesquisa -->
+    <div id="searchResults"></div>
+
+    <script>
+        function search(query) {
+            var cx = 'd71e4bef1967a4fb6'; // Substitua 'SUA_ID_DO_CSE' pela sua ID do Google CSE
+            var apiKey = 'AIzaSyAobkYlk2Y3Blq8OPOO6u-k1vFDXoO4158'; // Substitua 'SUA_API_KEY' pela sua chave de API da Pesquisa Personalizada do Google
+            var url = 'https://www.googleapis.com/customsearch/v1?q=' + encodeURIComponent(query) + '&cx=' + cx + '&key=' + apiKey;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Verificar se 'data.items' existe antes de tentar iterar sobre ele
+                    if (data.items) {
+                        // Processar e exibir os resultados da pesquisa
+                        displayResults(data.items);
+                    } else {
+                        console.error('Nenhum resultado encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao realizar a pesquisa:', error);
+                });
+        }
+
+        function displayResults(results) {
+            var searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = ''; // Limpar os resultados anteriores
+
+            results.forEach(item => {
+                var resultItem = document.createElement('div');
+                resultItem.innerHTML = '<h3>' + item.title + '</h3>' +
+                                       '<p>' + item.snippet + '</p>' +
+                                       '<a href="' + item.link + '">Ver mais</a>';
+                searchResults.appendChild(resultItem);
+            });
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar o comportamento padrão do formulário
+            var query = document.getElementById('searchInput').value;
+            if (query.trim() !== '') {
+                search(query);
+            }
+        });
+    </script>
+
+</body>
+</html>
