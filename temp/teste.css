@@ -1,0 +1,23 @@
+:root {
+  --whatsapp-icon-color: #fff;
+  --whatsapp-icon-hover: #000;
+  --whatsapp-background-color: #00c800;
+  --whatsapp-background-hover: #009600;
+  --telegram-icon-color: #fff;
+  --telegram-icon-hover: #fff;
+  --telegram-background-color: #0060ff;
+  --telegram-background-hover: #0044b3;
+}
+
+/* SweetAlert2 */
+.swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
+box-sizing: border-box;
+width: auto;
+transition: border-color .1s,box-shadow .1s;
+border: 1px solid #333;
+border-radius: .1875em;
+background: rgba(0,0,0,3);
+box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0);
+color: #FFF;
+font-size: 1.125em;
+}
