@@ -303,8 +303,8 @@
       xhr.open('GET', url, true);
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
-              var resposta = JSON.parse(xhr.responseText);
-              var itens = resposta.items;
+              var response = JSON.parse(xhr.responseText);
+              var itens = response.items;
               var html = '';
 
               // Montar os resultados em HTML
