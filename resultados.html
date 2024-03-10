@@ -288,7 +288,8 @@
         console.error('Parâmetros "artigo" e "regiao" não foram passados na URL.');
     }
 
-    function buscarResultadosGoogle(artigo, regiao, start) {
+    async function buscarResultadosGoogle(artigo, regiao, start) {
+
       var apiKey = 'AIzaSyBhjE_LxPLTAciGvFKLMevIjI0Sx_RGpKQ'; 
       var searchEngineId = '8043177e66c28427c';
       var divResultados = document.getElementById('div_resultados');
