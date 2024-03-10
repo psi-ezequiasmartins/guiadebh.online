@@ -5,72 +5,8 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-
 (function() {
   "use strict";
-
-  const select = (el, all = false) => {
-    el = el.trim();
-    if (all) {
-      return [...document.querySelectorAll(el)];
-    } else {
-      return document.querySelector(el);
-    }
-  };
-
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all);
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener));
-      } else {
-        selectEl.addEventListener(type, listener);
-      }
-    }
-  };
-
-  const search = async (query) => {
-    try {
-      const cx = 'd71e4bef1967a4fb6'; // Substitua pela sua ID do Google CSE
-      const apiKey = 'AIzaSyAobkYlk2Y3Blq8OPOO6u-k1vFDXoO4158'; // Substitua pela sua chave de API da Pesquisa Personalizada do Google
-      const url = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&cx=${cx}&key=${apiKey}`;
-      
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar resultados');
-      }
-      
-      const data = await response.json();
-      if (!data.items) {
-        throw new Error('Nenhum resultado encontrado');
-      }
-      
-      return data.items;
-    } catch (error) {
-      console.error('Erro na pesquisa:', error);
-      return [];
-    }
-  };
-
-  const displayResults = (results) => {
-    const searchResults = select('#searchResults');
-    searchResults.innerHTML = ''; // Limpar os resultados anteriores
-
-    results.forEach(item => {
-      const resultItem = document.createElement('div');
-      resultItem.innerHTML = `<h3>${item.title}</h3><p>${item.snippet}</p><a href="${item.link}" target="_blank">Ver mais</a>`;
-      searchResults.appendChild(resultItem);
-    });
-  };
-
-  on('submit', '#searchForm', async (event) => {
-    event.preventDefault();
-    const query = select('#searchInput').value.trim();
-    if (query !== '') {
-      const results = await search(query);
-      displayResults(results);
-    }
-  });
 
   /**
    * Easy selector helper function
@@ -295,4 +231,4 @@
    */
   new PureCounter();
 
-})();
+})()
