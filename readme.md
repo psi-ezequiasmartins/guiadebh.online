@@ -1,4 +1,4 @@
-<img src="psi-software.png" width="100"><br>
+<img src="assets/img/logo-top.png"><br>
 ## GUIA DE BH ONLINE (guiadebh.online)
 Projeto elaborado em HTML5/CSS, Templates da Bootstrapmade.com, Javascript/jQuery, para construção de um portal/guia de produtos e serviços de Belo Horizonte.
 
